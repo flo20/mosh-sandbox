@@ -1,6 +1,7 @@
 import React from 'react';
 import { Fragment } from 'react';
 import _ from "lodash";
+import PropTypes from 'prop-types';
 
 const Pages = ({ itemsCount, pageSize, onPageChange, currentPage }) => {
     console.log(currentPage);
@@ -25,6 +26,11 @@ const Pages = ({ itemsCount, pageSize, onPageChange, currentPage }) => {
         
         </Fragment>
     );
+}
+
+Pages.propTypes = {
+    itemsCount:PropTypes.number.isRequired, pageSize:PropTypes.number.isRequired, onPageChange:PropTypes.func.isRequired, currentPage:PropTypes.number.isRequired
+
 }
 
 export default Pages;

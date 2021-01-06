@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { getMovies } from "./../service/fakeMovieService";
 import Like from "../common/like"
 import Pages from "./../common/pages"
+import { paginate } from "./../utils/paginate"
+
 
 
 export default class Vidly extends Component {
@@ -37,8 +39,11 @@ export default class Vidly extends Component {
     }
 
     render() {
-        const {length : counts} = this.state.movies
-            if (counts === 0) return "There is no movie in the database";
+        const { length: counts } = this.state.movies
+        const { pageNumbers, current, movies:allMovies } = this.state;
+        if (counts === 0) return "There is no movie in the database";
+        
+        const movies = paginate(allMovies,current,pageNumbers)
         return (
             <div>
                 <p>Showing {counts} movies</p>
@@ -55,7 +60,7 @@ export default class Vidly extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {this.state.movies.map(movie =>
+                        {movies.map(movie =>
                             <tr key={movie._id}>
                             <td>{movie.title}</td>
                             <td>{movie.genre.name}</td>
@@ -73,7 +78,7 @@ export default class Vidly extends Component {
                         
                     </tbody>
                 </table>
-                <Pages itemsCount={counts} pageSize={this.state.pageNumbers} onPageChange={this.handlePageChange} currentPage={this.state.current}/>
+                <Pages itemsCount={counts} pageSize={pageNumbers} onPageChange={this.handlePageChange} currentPage={current}/>
             </div>
         )
     }
